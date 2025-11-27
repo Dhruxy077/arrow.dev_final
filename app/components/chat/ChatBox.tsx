@@ -67,13 +67,7 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
   return (
     <div
       className={classNames(
-        'relative bg-bolt-elements-background-depth-2 backdrop-blur p-3 rounded-lg border border-bolt-elements-borderColor relative w-full max-w-chat mx-auto z-prompt',
-
-        /*
-         * {
-         *   'sticky bottom-2': chatStarted,
-         * },
-         */
+        'relative bg-bolt-elements-background-depth-2 backdrop-blur p-3 border border-bolt-elements-borderColor relative w-full max-w-chat mx-auto z-prompt',
       )}
     >
       <svg className={classNames(styles.PromptEffectContainer)}>
@@ -167,7 +161,7 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
         </div>
       )}
       <div
-        className={classNames('relative shadow-xs border border-bolt-elements-borderColor backdrop-blur rounded-lg')}
+        className={classNames('relative shadow-xs border border-bolt-elements-borderColor backdrop-blur')}
       >
         <textarea
           ref={props.textareaRef}
