@@ -311,7 +311,7 @@ export const Menu = () => {
         style={{ width: '340px' }}
         className={classNames(
           'flex selection-accent flex-col side-menu fixed top-0 h-full rounded-r-2xl',
-          'bg-white dark:bg-gray-950 border-r border-bolt-elements-borderColor',
+          'bg-white dark:bg-gray-950 border-r border-arrow-elements-borderColor',
           'shadow-sm text-sm',
           isSettingsOpen ? 'z-40' : 'z-sidebar',
         )}
@@ -344,7 +344,7 @@ export const Menu = () => {
             <div className="flex gap-2">
               <a
                 href="/"
-                className="flex-1 flex gap-2 items-center bg-bolt-elements-button-primary-background hover:bg-bolt-elements-button-primary-backgroundHover text-bolt-elements-button-primary-text rounded-lg px-4 py-2 transition-all duration-200 shadow-sm hover:shadow-md"
+                className="flex-1 flex gap-2 items-center bg-arrow-elements-button-primary-background hover:bg-arrow-elements-button-primary-backgroundHover text-arrow-elements-button-primary-text rounded-lg px-4 py-2 transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 <span className="inline-block i-ph:plus-circle h-4 w-4" />
                 <span className="text-sm font-medium">Start new chat</span>

@@ -31,8 +31,8 @@ interface ControlPanelProps {
 const BETA_TABS = new Set<TabType>([]);
 
 const BetaLabel = () => (
-  <div className="absolute top-2 right-2 px-1.5 py-0.5 rounded-full bg-bolt-elements-background-depth-3 dark:bg-bolt-elements-background-depth-3 border border-bolt-elements-borderColor">
-    <span className="text-[10px] font-medium text-bolt-elements-textSecondary">BETA</span>
+  <div className="absolute top-2 right-2 px-1.5 py-0.5 rounded-full bg-arrow-elements-background-depth-3 dark:bg-arrow-elements-background-depth-3 border border-arrow-elements-borderColor">
+    <span className="text-[10px] font-medium text-arrow-elements-textSecondary">BETA</span>
   </div>
 );
 
@@ -186,9 +186,9 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
             <div
               className={classNames(
                 'w-[1200px] h-[90vh]',
-                'bg-bolt-elements-background-depth-1',
+                'bg-arrow-elements-background-depth-1',
                 'rounded-2xl shadow-2xl',
-                'border border-bolt-elements-borderColor',
+                'border border-arrow-elements-borderColor',
                 'flex flex-col overflow-hidden',
                 'relative',
                 'transform transition-all duration-200 ease-out',
@@ -207,7 +207,7 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
                         onClick={handleBack}
                         className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent hover:bg-purple-500/10 dark:hover:bg-purple-500/20 group transition-colors duration-150"
                       >
-                        <div className="i-ph:arrow-left w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-bolt-elements-textPrimary transition-colors" />
+                        <div className="i-ph:arrow-left w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-arrow-elements-textPrimary transition-colors" />
                       </button>
                     )}
                     <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -226,7 +226,7 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
                       onClick={handleClose}
                       className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent hover:bg-purple-500/10 dark:hover:bg-purple-500/20 group transition-all duration-200"
                     >
-                      <div className="i-ph:x w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-bolt-elements-textPrimary transition-colors" />
+                      <div className="i-ph:x w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-arrow-elements-textPrimary transition-colors" />
                     </button>
                   </div>
                 </div>
@@ -262,8 +262,8 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
                               'aspect-[1.5/1] transition-transform duration-100 ease-out',
                               'hover:scale-[1.01]',
                               'group relative rounded-xl overflow-hidden',
-                              'bg-gradient-to-br from-transparent to-transparent hover:from-bolt-elements-background-depth-3 hover:to-bolt-elements-background-depth-3',
-                              'border border-transparent hover:border-bolt-elements-borderColor',
+                              'bg-gradient-to-br from-transparent to-transparent hover:from-arrow-elements-background-depth-3 hover:to-arrow-elements-background-depth-3',
+                              'border border-transparent hover:border-arrow-elements-borderColor',
                             )}
                             style={{
                               animationDelay: `${index * 30}ms`,

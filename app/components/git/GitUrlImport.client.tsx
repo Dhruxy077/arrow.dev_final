@@ -75,16 +75,16 @@ export function GitUrlImport() {
           const filesMessage: Message = {
             role: 'assistant',
             content: `Cloning the repo ${repoUrl} into ${workdir}
-<boltArtifact id="imported-files" title="Git Cloned Files"  type="bundled">
+<arrowArtifact id="imported-files" title="Git Cloned Files"  type="bundled">
 ${fileContents
-  .map(
-    (file) =>
-      `<boltAction type="file" filePath="${file.path}">
+                .map(
+                  (file) =>
+                    `<arrowAction type="file" filePath="${file.path}">
 ${escapeBoltTags(file.content)}
-</boltAction>`,
-  )
-  .join('\n')}
-</boltArtifact>`,
+</arrowAction>`,
+                )
+                .join('\n')}
+</arrowArtifact>`,
             id: generateId(),
             createdAt: new Date(),
           };

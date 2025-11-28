@@ -3,12 +3,12 @@ import type { BoltArtifactData } from '~/types/artifact';
 import { createScopedLogger } from '~/utils/logger';
 import { unreachable } from '~/utils/unreachable';
 
-const ARTIFACT_TAG_OPEN = '<boltArtifact';
-const ARTIFACT_TAG_CLOSE = '</boltArtifact>';
-const ARTIFACT_ACTION_TAG_OPEN = '<boltAction';
-const ARTIFACT_ACTION_TAG_CLOSE = '</boltAction>';
-const BOLT_QUICK_ACTIONS_OPEN = '<bolt-quick-actions>';
-const BOLT_QUICK_ACTIONS_CLOSE = '</bolt-quick-actions>';
+const ARTIFACT_TAG_OPEN = '<arrowArtifact';
+const ARTIFACT_TAG_CLOSE = '</arrowArtifact>';
+const ARTIFACT_ACTION_TAG_OPEN = '<arrowAction';
+const ARTIFACT_ACTION_TAG_CLOSE = '</arrowAction>';
+const ARROW_QUICK_ACTIONS_OPEN = '<arrow-quick-actions>';
+const ARROW_QUICK_ACTIONS_CLOSE = '</arrow-quick-actions>';
 
 const logger = createScopedLogger('MessageParser');
 
@@ -77,7 +77,7 @@ export class StreamingMessageParser {
   #messages = new Map<string, MessageState>();
   #artifactCounter = 0;
 
-  constructor(private _options: StreamingMessageParserOptions = {}) {}
+  constructor(private _options: StreamingMessageParserOptions = {}) { }
 
   parse(messageId: string, input: string) {
     let state = this.#messages.get(messageId);
@@ -100,14 +100,14 @@ export class StreamingMessageParser {
     let earlyBreak = false;
 
     while (i < input.length) {
-      if (input.startsWith(BOLT_QUICK_ACTIONS_OPEN, i)) {
-        const actionsBlockEnd = input.indexOf(BOLT_QUICK_ACTIONS_CLOSE, i);
+      if (input.startsWith(ARROW_QUICK_ACTIONS_OPEN, i)) {
+        const actionsBlockEnd = input.indexOf(ARROW_QUICK_ACTIONS_CLOSE, i);
 
         if (actionsBlockEnd !== -1) {
-          const actionsBlockContent = input.slice(i + BOLT_QUICK_ACTIONS_OPEN.length, actionsBlockEnd);
+          const actionsBlockContent = input.slice(i + ARROW_QUICK_ACTIONS_OPEN.length, actionsBlockEnd);
 
-          // Find all <bolt-quick-action ...>label</bolt-quick-action> inside
-          const quickActionRegex = /<bolt-quick-action([^>]*)>([\s\S]*?)<\/bolt-quick-action>/g;
+          // Find all <arrow-quick-action ...>label</arrow-quick-action> inside
+          const quickActionRegex = /<arrow-quick-action([^>]*)>([\s\S]*?)<\/arrow-quick-action>/g;
           let match;
           const buttons = [];
 
@@ -126,7 +126,7 @@ export class StreamingMessageParser {
             );
           }
           output += createQuickActionGroup(buttons);
-          i = actionsBlockEnd + BOLT_QUICK_ACTIONS_CLOSE.length;
+          i = actionsBlockEnd + ARROW_QUICK_ACTIONS_CLOSE.length;
           continue;
         }
       }
@@ -388,7 +388,7 @@ export class StreamingMessageParser {
 
 const createArtifactElement: ElementFactory = (props) => {
   const elementProps = [
-    'class="__boltArtifact__"',
+    'class="__arrowArtifact__"',
     ...Object.entries(props).map(([key, value]) => {
       return `data-${camelToDashCase(key)}=${JSON.stringify(value)}`;
     }),
@@ -403,8 +403,8 @@ function camelToDashCase(input: string) {
 
 function createQuickActionElement(props: Record<string, string>, label: string) {
   const elementProps = [
-    'class="__boltQuickAction__"',
-    'data-bolt-quick-action="true"',
+    'class="__arrowQuickAction__"',
+    'data-arrow-quick-action="true"',
     ...Object.entries(props).map(([key, value]) => `data-${camelToDashCase(key)}=${JSON.stringify(value)}`),
   ];
 
@@ -412,5 +412,5 @@ function createQuickActionElement(props: Record<string, string>, label: string) 
 }
 
 function createQuickActionGroup(buttons: string[]) {
-  return `<div class=\"__boltQuickAction__\" data-bolt-quick-action=\"true\">${buttons.join('')}</div>`;
+  return `<div class=\"__arrowQuickAction__\" data-arrow-quick-action=\"true\">${buttons.join('')}</div>`;
 }

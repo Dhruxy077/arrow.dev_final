@@ -185,16 +185,16 @@ export async function getTemplates(templateName: string, title?: string) {
 
   const assistantMessage = `
 Bolt is initializing your project with the required files using the ${template.name} template.
-<boltArtifact id="imported-files" title="${title || 'Create initial files'}" type="bundled">
+<arrowArtifact id="imported-files" title="${title || 'Create initial files'}" type="bundled">
 ${filesToImport.files
   .map(
     (file) =>
-      `<boltAction type="file" filePath="${file.path}">
+      `<arrowAction type="file" filePath="${file.path}">
 ${file.content}
-</boltAction>`,
+</arrowAction>`,
   )
   .join('\n')}
-</boltArtifact>
+</arrowArtifact>
 `;
   let userMessage = ``;
   const templatePromptFile = files.filter((x) => x.path.startsWith('.bolt')).find((x) => x.name == 'prompt');

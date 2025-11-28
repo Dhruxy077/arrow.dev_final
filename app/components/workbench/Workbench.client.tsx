@@ -169,7 +169,7 @@ export const Workbench = memo(
         >
           <div
             className={classNames(
-              'fixed top-[var(--header-height)] bottom-6 w-[var(--workbench-inner-width)] z-0 transition-[left,width] duration-200 bolt-ease-cubic-bezier',
+              'fixed top-[var(--header-height)] bottom-6 w-[var(--workbench-inner-width)] z-0 transition-[left,width] duration-200 arrow-ease-cubic-bezier',
               {
                 'w-full': isSmallViewport,
                 'left-0': showWorkbench && isSmallViewport,
@@ -179,11 +179,11 @@ export const Workbench = memo(
             )}
           >
             <div className="absolute inset-0">
-              <div className="h-full flex flex-col bg-bolt-elements-background-depth-2 border border-bolt-elements-borderColor shadow-sm overflow-hidden">
+              <div className="h-full flex flex-col bg-arrow-elements-background-depth-2 border border-arrow-elements-borderColor shadow-sm overflow-hidden">
 
-                <div className="flex items-center px-3 py-2 border-b border-bolt-elements-borderColor gap-1.5">
+                <div className="flex items-center px-3 py-2 border-b border-arrow-elements-borderColor gap-1.5">
                   <button
-                    className={`${showChat ? 'i-ph:sidebar-simple-fill' : 'i-ph:sidebar-simple'} text-lg text-bolt-elements-textSecondary mr-1`}
+                    className={`${showChat ? 'i-ph:sidebar-simple-fill' : 'i-ph:sidebar-simple'} text-lg text-arrow-elements-textSecondary mr-1`}
                     disabled={!canHideChat || isSmallViewport}
                     onClick={() => {
                       if (canHideChat) {
@@ -199,11 +199,11 @@ export const Workbench = memo(
                       <ExportChatButton exportChat={exportChat} />
 
                       {/* Sync Button */}
-                      <div className="flex border border-bolt-elements-borderColor rounded-md overflow-hidden ml-1">
+                      <div className="flex border border-arrow-elements-borderColor rounded-md overflow-hidden ml-1">
                         <DropdownMenu.Root>
                           <DropdownMenu.Trigger
                             disabled={isSyncing || streaming}
-                            className="rounded-md items-center justify-center [&:is(:disabled,.disabled)]:cursor-not-allowed [&:is(:disabled,.disabled)]:opacity-60 px-3 py-1.5 text-xs bg-accent-500 text-white hover:text-bolt-elements-item-contentAccent [&:not(:disabled,.disabled)]:hover:bg-bolt-elements-button-primary-backgroundHover outline-accent-500 flex gap-1.7"
+                            className="rounded-md items-center justify-center [&:is(:disabled,.disabled)]:cursor-not-allowed [&:is(:disabled,.disabled)]:opacity-60 px-3 py-1.5 text-xs bg-accent-500 text-white hover:text-arrow-elements-item-contentAccent [&:not(:disabled,.disabled)]:hover:bg-arrow-elements-button-primary-backgroundHover outline-accent-500 flex gap-1.7"
                           >
                             {isSyncing ? 'Syncing...' : 'Sync'}
                             <span className={classNames('i-ph:caret-down transition-transform')} />
@@ -222,7 +222,7 @@ export const Workbench = memo(
                           >
                             <DropdownMenu.Item
                               className={classNames(
-                                'cursor-pointer flex items-center w-full px-4 py-2 text-sm text-bolt-elements-textPrimary hover:bg-bolt-elements-item-backgroundActive gap-2 rounded-md group relative',
+                                'cursor-pointer flex items-center w-full px-4 py-2 text-sm text-arrow-elements-textPrimary hover:bg-arrow-elements-item-backgroundActive gap-2 rounded-md group relative',
                               )}
                               onClick={handleSyncFiles}
                               disabled={isSyncing}
@@ -241,12 +241,12 @@ export const Workbench = memo(
                       </div>
 
                       {/* Toggle Terminal Button */}
-                      <div className="flex border border-bolt-elements-borderColor rounded-md overflow-hidden ml-1">
+                      <div className="flex border border-arrow-elements-borderColor rounded-md overflow-hidden ml-1">
                         <button
                           onClick={() => {
                             workbenchStore.toggleTerminal(!workbenchStore.showTerminal.get());
                           }}
-                          className="rounded-md items-center justify-center [&:is(:disabled,.disabled)]:cursor-not-allowed [&:is(:disabled,.disabled)]:opacity-60 px-3 py-1.5 text-xs bg-accent-500 text-white hover:text-bolt-elements-item-contentAccent [&:not(:disabled,.disabled)]:hover:bg-bolt-elements-button-primary-backgroundHover outline-accent-500 flex gap-1.7"
+                          className="rounded-md items-center justify-center [&:is(:disabled,.disabled)]:cursor-not-allowed [&:is(:disabled,.disabled)]:opacity-60 px-3 py-1.5 text-xs bg-accent-500 text-white hover:text-arrow-elements-item-contentAccent [&:not(:disabled,.disabled)]:hover:bg-arrow-elements-button-primary-backgroundHover outline-accent-500 flex gap-1.7"
                         >
                           <div className="i-ph:terminal" />
                           Toggle Terminal
