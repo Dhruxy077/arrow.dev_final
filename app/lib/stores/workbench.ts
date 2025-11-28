@@ -589,6 +589,13 @@ export class WorkbenchStore {
 
       if (!isStreaming && data.action.content) {
         await this.saveFile(fullPath);
+      } else if (isStreaming && data.action.content) {
+        // During streaming, save asynchronously without blocking
+        queueMicrotask(() => {
+          this.saveFile(fullPath).catch((error) => {
+            console.error('Failed to save file during streaming:', error);
+          });
+        });
       }
 
       if (!isStreaming) {
@@ -602,7 +609,7 @@ export class WorkbenchStore {
 
   actionStreamSampler = createSampler(async (data: ActionCallbackData, isStreaming: boolean = false) => {
     return await this._runAction(data, isStreaming);
-  }, 100); // TODO: remove this magic number to have it configurable
+  }, 32); // Optimized for smooth file updates (~30fps)
 
   #getArtifact(id: string) {
     const artifacts = this.artifacts.get();

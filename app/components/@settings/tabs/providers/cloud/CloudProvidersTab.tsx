@@ -8,34 +8,21 @@ import { motion } from 'framer-motion';
 import { classNames } from '~/utils/classNames';
 import { toast } from 'react-toastify';
 import { providerBaseUrlEnvKeys } from '~/utils/constants';
-import { SiGoogle, SiHuggingface, SiOpenai } from 'react-icons/si';
-import { FaCloud, FaBrain } from 'react-icons/fa';
+import { SiGoogle } from 'react-icons/si';
 import type { IconType } from 'react-icons';
 
 // Add type for provider names to ensure type safety
 type ProviderName =
-  | 'Anthropic'
-  | 'Google'
-  | 'HuggingFace'
-  | 'OpenAI'
-  | 'OpenRouter';
+  | 'Google';
 
 // Update the PROVIDER_ICONS type to use the ProviderName type
 const PROVIDER_ICONS: Record<ProviderName, IconType> = {
-  Anthropic: FaBrain,
   Google: SiGoogle,
-  HuggingFace: SiHuggingface,
-  OpenAI: SiOpenai,
-  OpenRouter: FaCloud,
 };
 
 // Update PROVIDER_DESCRIPTIONS to use the same type
 const PROVIDER_DESCRIPTIONS: Partial<Record<ProviderName, string>> = {
-  Anthropic: 'Access Claude and other Anthropic models',
   Google: 'Access Gemini and other Google AI models',
-  HuggingFace: 'Use HuggingFace hosted models',
-  OpenAI: 'Use GPT-4, GPT-3.5, and other OpenAI models',
-  OpenRouter: 'Access multiple AI providers through OpenRouter',
 };
 
 const CloudProvidersTab = () => {

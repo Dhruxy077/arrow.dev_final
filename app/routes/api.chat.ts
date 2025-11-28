@@ -243,7 +243,6 @@ async function chatAction({ context, request }: ActionFunctionArgs) {
                 order: progressCounter++,
                 message: 'Response Generated',
               } satisfies ProgressAnnotation);
-              await new Promise((resolve) => setTimeout(resolve, 0));
 
               // stream.close();
               return;
