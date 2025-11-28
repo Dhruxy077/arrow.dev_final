@@ -98,7 +98,35 @@ const COLOR_PRIMITIVES = {
 };
 
 export default defineConfig({
-  safelist: [...Object.keys(customIconCollection[collectionName] || {}).map((x) => `i-bolt:${x}`)],
+  safelist: [
+    ...Object.keys(customIconCollection[collectionName] || {}).map((x) => `i-bolt:${x}`),
+    'i-logos:typescript-icon',
+    'i-logos:javascript',
+    'i-logos:html-5',
+    'i-logos:css-3',
+    'i-logos:json',
+    'i-logos:markdown',
+    'i-logos:python',
+    'i-logos:go',
+    'i-logos:rust',
+    'i-logos:java',
+    'i-logos:c-plus-plus',
+    'i-logos:ruby',
+    'i-logos:php',
+    'i-logos:vue',
+    'i-logos:svelte-icon',
+    'i-logos:astro-icon',
+    'i-logos:yaml',
+    'i-logos:xml',
+    'i-logos:svg',
+    'i-logos:git-icon',
+    'i-logos:nodejs-icon',
+    'i-logos:vitejs',
+    'i-logos:nextjs-icon',
+    'i-logos:tailwindcss-icon',
+    'i-logos:unocss',
+    'i-logos:docker-icon',
+  ],
   shortcuts: {
     'bolt-ease-cubic-bezier': 'ease-[cubic-bezier(0.4,0,0.2,1)]',
     'transition-theme': 'transition-[background-color,border-color,color] duration-150 bolt-ease-cubic-bezier',
@@ -113,6 +141,10 @@ export default defineConfig({
     ['b', {}],
   ],
   theme: {
+    fontFamily: {
+      sans: 'Ubuntu, sans-serif',
+      mono: '"JetBrains Mono", monospace',
+    },
     colors: {
       ...COLOR_PRIMITIVES,
       bolt: {

@@ -45,19 +45,21 @@ export const links: LinksFunction = () => [
     rel: 'stylesheet',
     href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap',
   },
+  {
+    rel: 'stylesheet',
+    href: 'https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap',
+  },
+  {
+    rel: 'stylesheet',
+    href: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap',
+  },
 ];
 
 const inlineThemeCode = stripIndents`
   setTutorialKitTheme();
 
   function setTutorialKitTheme() {
-    let theme = localStorage.getItem('bolt_theme');
-
-    if (!theme) {
-      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-
-    document.querySelector('html')?.setAttribute('data-theme', theme);
+    document.querySelector('html')?.setAttribute('data-theme', 'dark');
   }
 `;
 
@@ -72,11 +74,9 @@ export const Head = createHead(() => (
 ));
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const theme = useStore(themeStore);
-
   useEffect(() => {
-    document.querySelector('html')?.setAttribute('data-theme', theme);
-  }, [theme]);
+    document.querySelector('html')?.setAttribute('data-theme', 'dark');
+  }, []);
 
   return (
     <>
@@ -125,23 +125,7 @@ export default function App() {
       timestamp: new Date().toISOString(),
     });
 
-    // Initialize debug logging with improved error handling
-    import('./utils/debugLogger')
-      .then(({ debugLogger }) => {
-        /*
-         * The debug logger initializes itself and starts disabled by default
-         * It will only start capturing when enableDebugMode() is called
-         */
-        const status = debugLogger.getStatus();
-        logStore.logSystem('Debug logging ready', {
-          initialized: status.initialized,
-          capturing: status.capturing,
-          enabled: status.enabled,
-        });
-      })
-      .catch((error) => {
-        logStore.logError('Failed to initialize debug logging', error);
-      });
+
   }, []);
 
   return (

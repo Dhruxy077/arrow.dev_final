@@ -3,13 +3,13 @@ import { memo, useMemo } from 'react';
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels';
 import * as Tabs from '@radix-ui/react-tabs';
 import {
-  CodeMirrorEditor,
+  MonacoEditor,
   type EditorDocument,
   type EditorSettings,
   type OnChangeCallback as OnEditorChange,
   type OnSaveCallback as OnEditorSave,
   type OnScrollCallback as OnEditorScroll,
-} from '~/components/editor/codemirror/CodeMirrorEditor';
+} from '~/components/editor/monaco/MonacoEditor';
 import { PanelHeader } from '~/components/ui/PanelHeader';
 import { PanelHeaderButton } from '~/components/ui/PanelHeaderButton';
 import type { FileMap } from '~/lib/stores/files';
@@ -164,7 +164,7 @@ export const EditorPanel = memo(
                 )}
               </PanelHeader>
               <div className="h-full flex-1 overflow-hidden modern-scrollbar">
-                <CodeMirrorEditor
+                <MonacoEditor
                   theme={theme}
                   editable={!isStreaming && editorDocument !== undefined}
                   settings={editorSettings}

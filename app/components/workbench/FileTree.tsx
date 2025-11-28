@@ -9,6 +9,8 @@ import { workbenchStore } from '~/lib/stores/workbench';
 import { toast } from 'react-toastify';
 import { path } from '~/utils/path';
 
+import { getFileIcon } from '~/utils/fileIcons';
+
 const logger = createScopedLogger('FileTree');
 
 const NODE_PADDING_LEFT = 8;
@@ -692,7 +694,7 @@ function File({
           'bg-bolt-elements-item-backgroundAccent text-bolt-elements-item-contentAccent': selected,
         })}
         depth={depth}
-        iconClasses={classNames('i-ph:file-duotone scale-98', {
+        iconClasses={classNames(getFileIcon(name), 'scale-98', {
           'group-hover:text-bolt-elements-item-contentActive': !selected,
         })}
         onClick={onClick}

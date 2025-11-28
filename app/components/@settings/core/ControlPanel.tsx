@@ -17,18 +17,10 @@ import BackgroundRays from '~/components/ui/BackgroundRays';
 // Import all tab components
 import ProfileTab from '~/components/@settings/tabs/profile/ProfileTab';
 import SettingsTab from '~/components/@settings/tabs/settings/SettingsTab';
-import NotificationsTab from '~/components/@settings/tabs/notifications/NotificationsTab';
 import FeaturesTab from '~/components/@settings/tabs/features/FeaturesTab';
 import { DataTab } from '~/components/@settings/tabs/data/DataTab';
-import { EventLogsTab } from '~/components/@settings/tabs/event-logs/EventLogsTab';
 import GitHubTab from '~/components/@settings/tabs/github/GitHubTab';
-import GitLabTab from '~/components/@settings/tabs/gitlab/GitLabTab';
-import SupabaseTab from '~/components/@settings/tabs/supabase/SupabaseTab';
-import VercelTab from '~/components/@settings/tabs/vercel/VercelTab';
-import NetlifyTab from '~/components/@settings/tabs/netlify/NetlifyTab';
 import CloudProvidersTab from '~/components/@settings/tabs/providers/cloud/CloudProvidersTab';
-import LocalProvidersTab from '~/components/@settings/tabs/providers/local/LocalProvidersTab';
-import McpTab from '~/components/@settings/tabs/mcp/McpTab';
 
 interface ControlPanelProps {
   open: boolean;
@@ -36,11 +28,11 @@ interface ControlPanelProps {
 }
 
 // Beta status for experimental features
-const BETA_TABS = new Set<TabType>(['local-providers', 'mcp']);
+const BETA_TABS = new Set<TabType>([]);
 
 const BetaLabel = () => (
-  <div className="absolute top-2 right-2 px-1.5 py-0.5 rounded-full bg-purple-500/10 dark:bg-purple-500/20">
-    <span className="text-[10px] font-medium text-purple-600 dark:text-purple-400">BETA</span>
+  <div className="absolute top-2 right-2 px-1.5 py-0.5 rounded-full bg-bolt-elements-background-depth-3 dark:bg-bolt-elements-background-depth-3 border border-bolt-elements-borderColor">
+    <span className="text-[10px] font-medium text-bolt-elements-textSecondary">BETA</span>
   </div>
 );
 
@@ -56,7 +48,6 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
 
   // Status hooks
   const { hasNewFeatures, unviewedFeatures, acknowledgeAllFeatures } = useFeatures();
-  const { hasUnreadNotifications, unreadNotifications, markAllAsRead } = useNotifications();
   const { hasConnectionIssues, currentIssue, acknowledgeIssue } = useConnectionStatus();
 
   // Memoize the base tab configurations to avoid recalculation
@@ -73,8 +64,6 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
       return [];
     }
 
-    const notificationsDisabled = profile?.preferences?.notifications === false;
-
     // Optimize user mode tab filtering
     return tabConfiguration.userTabs
       .filter((tab) => {
@@ -82,14 +71,10 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
           return false;
         }
 
-        if (tab.id === 'notifications' && notificationsDisabled) {
-          return false;
-        }
-
         return tab.visible && tab.window === 'user';
       })
       .sort((a, b) => a.order - b.order);
-  }, [tabConfiguration, profile?.preferences?.notifications, baseTabConfig]);
+  }, [tabConfiguration, baseTabConfig]);
 
   // Reset to default view when modal opens/closes
   useEffect(() => {
@@ -127,30 +112,14 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
         return <ProfileTab />;
       case 'settings':
         return <SettingsTab />;
-      case 'notifications':
-        return <NotificationsTab />;
       case 'features':
         return <FeaturesTab />;
       case 'data':
         return <DataTab />;
       case 'cloud-providers':
         return <CloudProvidersTab />;
-      case 'local-providers':
-        return <LocalProvidersTab />;
       case 'github':
         return <GitHubTab />;
-      case 'gitlab':
-        return <GitLabTab />;
-      case 'supabase':
-        return <SupabaseTab />;
-      case 'vercel':
-        return <VercelTab />;
-      case 'netlify':
-        return <NetlifyTab />;
-      case 'event-logs':
-        return <EventLogsTab />;
-      case 'mcp':
-        return <McpTab />;
 
       default:
         return null;
@@ -161,13 +130,7 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
     switch (tabId) {
       case 'features':
         return hasNewFeatures;
-      case 'notifications':
-        return hasUnreadNotifications;
       case 'github':
-      case 'gitlab':
-      case 'supabase':
-      case 'vercel':
-      case 'netlify':
         return hasConnectionIssues;
       default:
         return false;
@@ -178,13 +141,7 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
     switch (tabId) {
       case 'features':
         return `${unviewedFeatures.length} new feature${unviewedFeatures.length === 1 ? '' : 's'} to explore`;
-      case 'notifications':
-        return `${unreadNotifications.length} unread notification${unreadNotifications.length === 1 ? '' : 's'}`;
       case 'github':
-      case 'gitlab':
-      case 'supabase':
-      case 'vercel':
-      case 'netlify':
         return currentIssue === 'disconnected'
           ? 'Connection lost'
           : currentIssue === 'high-latency'
@@ -205,14 +162,7 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
       case 'features':
         acknowledgeAllFeatures();
         break;
-      case 'notifications':
-        markAllAsRead();
-        break;
       case 'github':
-      case 'gitlab':
-      case 'supabase':
-      case 'vercel':
-      case 'netlify':
         acknowledgeIssue();
         break;
     }
@@ -257,7 +207,7 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
                         onClick={handleBack}
                         className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent hover:bg-purple-500/10 dark:hover:bg-purple-500/20 group transition-colors duration-150"
                       >
-                        <div className="i-ph:arrow-left w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-purple-500 transition-colors" />
+                        <div className="i-ph:arrow-left w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-bolt-elements-textPrimary transition-colors" />
                       </button>
                     )}
                     <DialogTitle className="text-xl font-semibold text-gray-900 dark:text-white">
@@ -276,7 +226,7 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
                       onClick={handleClose}
                       className="flex items-center justify-center w-8 h-8 rounded-full bg-transparent hover:bg-purple-500/10 dark:hover:bg-purple-500/20 group transition-all duration-200"
                     >
-                      <div className="i-ph:x w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-purple-500 transition-colors" />
+                      <div className="i-ph:x w-4 h-4 text-gray-500 dark:text-gray-400 group-hover:text-bolt-elements-textPrimary transition-colors" />
                     </button>
                   </div>
                 </div>
@@ -311,6 +261,9 @@ export const ControlPanel = ({ open, onClose }: ControlPanelProps) => {
                             className={classNames(
                               'aspect-[1.5/1] transition-transform duration-100 ease-out',
                               'hover:scale-[1.01]',
+                              'group relative rounded-xl overflow-hidden',
+                              'bg-gradient-to-br from-transparent to-transparent hover:from-bolt-elements-background-depth-3 hover:to-bolt-elements-background-depth-3',
+                              'border border-transparent hover:border-bolt-elements-borderColor',
                             )}
                             style={{
                               animationDelay: `${index * 30}ms`,

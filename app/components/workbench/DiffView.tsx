@@ -2,7 +2,7 @@ import { memo, useMemo, useState, useEffect, useCallback } from 'react';
 import { useStore } from '@nanostores/react';
 import { workbenchStore } from '~/lib/stores/workbench';
 import type { FileMap } from '~/lib/stores/files';
-import type { EditorDocument } from '~/components/editor/codemirror/CodeMirrorEditor';
+import type { EditorDocument } from '~/components/editor/monaco/MonacoEditor';
 import { diffLines, type Change } from 'diff';
 import { getHighlighter } from 'shiki';
 import '~/styles/diff-view.css';
@@ -376,12 +376,12 @@ const NoChangesView = memo(
                   dangerouslySetInnerHTML={{
                     __html: highlighter
                       ? highlighter
-                          .codeToHtml(line, {
-                            lang: language,
-                            theme: theme === 'dark' ? 'github-dark' : 'github-light',
-                          })
-                          .replace(/<\/?pre[^>]*>/g, '')
-                          .replace(/<\/?code[^>]*>/g, '')
+                        .codeToHtml(line, {
+                          lang: language,
+                          theme: theme === 'dark' ? 'github-dark' : 'github-light',
+                        })
+                        .replace(/<\/?pre[^>]*>/g, '')
+                        .replace(/<\/?code[^>]*>/g, '')
                       : line,
                   }}
                 />
@@ -424,9 +424,9 @@ const CodeLine = memo(
       if (type === 'unchanged' || !block.charChanges) {
         const highlightedCode = highlighter
           ? highlighter
-              .codeToHtml(content, { lang: language, theme: theme === 'dark' ? 'github-dark' : 'github-light' })
-              .replace(/<\/?pre[^>]*>/g, '')
-              .replace(/<\/?code[^>]*>/g, '')
+            .codeToHtml(content, { lang: language, theme: theme === 'dark' ? 'github-dark' : 'github-light' })
+            .replace(/<\/?pre[^>]*>/g, '')
+            .replace(/<\/?code[^>]*>/g, '')
           : content;
         return <span dangerouslySetInnerHTML={{ __html: highlightedCode }} />;
       }
@@ -438,12 +438,12 @@ const CodeLine = memo(
 
             const highlightedCode = highlighter
               ? highlighter
-                  .codeToHtml(change.value, {
-                    lang: language,
-                    theme: theme === 'dark' ? 'github-dark' : 'github-light',
-                  })
-                  .replace(/<\/?pre[^>]*>/g, '')
-                  .replace(/<\/?code[^>]*>/g, '')
+                .codeToHtml(change.value, {
+                  lang: language,
+                  theme: theme === 'dark' ? 'github-dark' : 'github-light',
+                })
+                .replace(/<\/?pre[^>]*>/g, '')
+                .replace(/<\/?code[^>]*>/g, '')
               : change.value;
 
             return <span key={index} className={changeClass} dangerouslySetInnerHTML={{ __html: highlightedCode }} />;

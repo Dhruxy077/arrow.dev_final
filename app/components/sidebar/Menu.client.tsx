@@ -2,7 +2,6 @@ import { motion, type Variants } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Dialog, DialogButton, DialogDescription, DialogRoot, DialogTitle } from '~/components/ui/Dialog';
-import { ThemeSwitch } from '~/components/ui/ThemeSwitch';
 import { ControlPanel } from '~/components/@settings/core/ControlPanel';
 import { SettingsButton, HelpButton } from '~/components/ui/SettingsButton';
 import { Button } from '~/components/ui/Button';
@@ -14,6 +13,7 @@ import { useSearchFilter } from '~/lib/hooks/useSearchFilter';
 import { classNames } from '~/utils/classNames';
 import { useStore } from '@nanostores/react';
 import { profileStore } from '~/lib/stores/profile';
+import { isSidebarOpen } from '~/lib/stores/sidebar';
 
 const menuVariants = {
   closed: {
@@ -67,7 +67,7 @@ export const Menu = () => {
   const { duplicateCurrentChat, exportChat } = useChatHistory();
   const menuRef = useRef<HTMLDivElement>(null);
   const [list, setList] = useState<ChatHistoryItem[]>([]);
-  const [open, setOpen] = useState(false);
+  const open = useStore(isSidebarOpen);
   const [dialogContent, setDialogContent] = useState<DialogContent>(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const profile = useStore(profileStore);
@@ -279,28 +279,7 @@ export const Menu = () => {
   }, [open, selectionMode]);
 
   useEffect(() => {
-    const enterThreshold = 20;
-    const exitThreshold = 20;
-
-    function onMouseMove(event: MouseEvent) {
-      if (isSettingsOpen) {
-        return;
-      }
-
-      if (event.pageX < enterThreshold) {
-        setOpen(true);
-      }
-
-      if (menuRef.current && event.clientX > menuRef.current.getBoundingClientRect().right + exitThreshold) {
-        setOpen(false);
-      }
-    }
-
-    window.addEventListener('mousemove', onMouseMove);
-
-    return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-    };
+    // Hover logic removed
   }, [isSettingsOpen]);
 
   const handleDuplicate = async (id: string) => {
@@ -310,7 +289,7 @@ export const Menu = () => {
 
   const handleSettingsClick = () => {
     setIsSettingsOpen(true);
-    setOpen(false);
+    isSidebarOpen.set(false);
   };
 
   const handleSettingsClose = () => {
@@ -365,7 +344,7 @@ export const Menu = () => {
             <div className="flex gap-2">
               <a
                 href="/"
-                className="flex-1 flex gap-2 items-center bg-purple-50 dark:bg-purple-500/10 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-500/20 rounded-lg px-4 py-2 transition-colors"
+                className="flex-1 flex gap-2 items-center bg-bolt-elements-button-primary-background hover:bg-bolt-elements-button-primary-backgroundHover text-bolt-elements-button-primary-text rounded-lg px-4 py-2 transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 <span className="inline-block i-ph:plus-circle h-4 w-4" />
                 <span className="text-sm font-medium">Start new chat</span>
@@ -529,7 +508,6 @@ export const Menu = () => {
             <div className="flex items-center gap-3">
               <SettingsButton onClick={handleSettingsClick} />
             </div>
-            <ThemeSwitch />
           </div>
         </div>
       </motion.div>
