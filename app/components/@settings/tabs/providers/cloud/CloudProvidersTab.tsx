@@ -8,55 +8,34 @@ import { motion } from 'framer-motion';
 import { classNames } from '~/utils/classNames';
 import { toast } from 'react-toastify';
 import { providerBaseUrlEnvKeys } from '~/utils/constants';
-import { SiAmazon, SiGoogle, SiGithub, SiHuggingface, SiPerplexity, SiOpenai } from 'react-icons/si';
-import { BsRobot, BsCloud } from 'react-icons/bs';
-import { TbBrain, TbCloudComputing } from 'react-icons/tb';
-import { BiCodeBlock, BiChip } from 'react-icons/bi';
+import { SiGoogle, SiHuggingface, SiOpenai } from 'react-icons/si';
 import { FaCloud, FaBrain } from 'react-icons/fa';
 import type { IconType } from 'react-icons';
 
 // Add type for provider names to ensure type safety
 type ProviderName =
-  | 'AmazonBedrock'
   | 'Anthropic'
-  | 'Cohere'
-  | 'Deepseek'
-  | 'Github'
   | 'Google'
-  | 'Groq'
   | 'HuggingFace'
-  | 'Hyperbolic'
-  | 'Mistral'
   | 'OpenAI'
-  | 'OpenRouter'
-  | 'Perplexity'
-  | 'Together'
-  | 'XAI';
+  | 'OpenRouter';
 
 // Update the PROVIDER_ICONS type to use the ProviderName type
 const PROVIDER_ICONS: Record<ProviderName, IconType> = {
-  AmazonBedrock: SiAmazon,
   Anthropic: FaBrain,
-  Cohere: BiChip,
-  Deepseek: BiCodeBlock,
-  Github: SiGithub,
   Google: SiGoogle,
-  Groq: BsCloud,
   HuggingFace: SiHuggingface,
-  Hyperbolic: TbCloudComputing,
-  Mistral: TbBrain,
   OpenAI: SiOpenai,
   OpenRouter: FaCloud,
-  Perplexity: SiPerplexity,
-  Together: BsCloud,
-  XAI: BsRobot,
 };
 
 // Update PROVIDER_DESCRIPTIONS to use the same type
 const PROVIDER_DESCRIPTIONS: Partial<Record<ProviderName, string>> = {
   Anthropic: 'Access Claude and other Anthropic models',
-  Github: 'Use OpenAI models hosted through GitHub infrastructure',
+  Google: 'Access Gemini and other Google AI models',
+  HuggingFace: 'Use HuggingFace hosted models',
   OpenAI: 'Use GPT-4, GPT-3.5, and other OpenAI models',
+  OpenRouter: 'Access multiple AI providers through OpenRouter',
 };
 
 const CloudProvidersTab = () => {
@@ -150,7 +129,7 @@ const CloudProvidersTab = () => {
                 'text-purple-500',
               )}
             >
-              <TbCloudComputing className="w-5 h-5" />
+              <SiGoogle className="w-5 h-5" />
             </div>
             <div>
               <h4 className="text-md font-medium text-bolt-elements-textPrimary">Cloud Providers</h4>
@@ -205,7 +184,7 @@ const CloudProvidersTab = () => {
                   whileTap={{ scale: 0.9 }}
                 >
                   <div className={classNames('w-6 h-6', 'transition-transform duration-200', 'group-hover:rotate-12')}>
-                    {React.createElement(PROVIDER_ICONS[provider.name as ProviderName] || BsRobot, {
+                    {React.createElement(PROVIDER_ICONS[provider.name as ProviderName] || FaCloud, {
                       className: 'w-full h-full',
                       'aria-label': `${provider.name} logo`,
                     })}

@@ -114,8 +114,8 @@ export function createSecurityHeaders() {
     // HSTS (HTTP Strict Transport Security) - only in production
     ...(process.env.NODE_ENV === 'production'
       ? {
-          'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
-        }
+        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+      }
       : {}),
   };
 }
@@ -132,10 +132,7 @@ export function validateApiKeyFormat(apiKey: string, provider: string): boolean 
   const minLengths: Record<string, number> = {
     anthropic: 50,
     openai: 50,
-    groq: 50,
     google: 30,
-    github: 30,
-    netlify: 30,
   };
 
   const minLength = minLengths[provider.toLowerCase()] || 20;
