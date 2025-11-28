@@ -241,19 +241,19 @@ export async function streamText(props: {
   const filteredOptions =
     isReasoning && options
       ? Object.fromEntries(
-          Object.entries(options).filter(
-            ([key]) =>
-              ![
-                'temperature',
-                'topP',
-                'presencePenalty',
-                'frequencyPenalty',
-                'logprobs',
-                'topLogprobs',
-                'logitBias',
-              ].includes(key),
-          ),
-        )
+        Object.entries(options).filter(
+          ([key]) =>
+            ![
+              'temperature',
+              'topP',
+              'presencePenalty',
+              'frequencyPenalty',
+              'logprobs',
+              'topLogprobs',
+              'logitBias',
+            ].includes(key),
+        ),
+      )
       : options || {};
 
   // DEBUG: Log filtered options
@@ -309,3 +309,58 @@ export async function streamText(props: {
 
   return await _streamText(streamParams);
 }
+
+/**
+ * Wrapper for streamText with automatic retry on rate limit errors
+ * Automatically rotates API keys when Google provider hits rate limits
+ */
+export async function streamTextWithRetry(props: Parameters<typeof streamText>[0]) {
+  const maxRetries = 3;
+  let lastError: any = null;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      logger.info(`API call attempt ${attempt}/${maxRetries}`);
+      return await streamText(props);
+    } catch (error: any) {
+      lastError = error;
+
+      // Check if this is a rate limit error
+      const isRateLimitError =
+        error?.status === 429 ||
+        error?.statusCode === 429 ||
+        error?.code === 'RESOURCE_EXHAUSTED' ||
+        error?.message?.includes('quota') ||
+        error?.message?.includes('rate limit') ||
+        error?.message?.includes('RESOURCE_EXHAUSTED') ||
+        error?.message?.includes('429');
+
+      if (isRateLimitError) {
+        logger.warn(`Rate limit error detected on attempt ${attempt}/${maxRetries}: ${error.message || error.code}`);
+
+        // If Google provider, the rotation will happen automatically in the next attempt
+        // because getNextAvailableKey() is called each time getModelInstance() is invoked
+        if (attempt < maxRetries) {
+          logger.info(`Retrying with next available API key (attempt ${attempt + 1}/${maxRetries})...`);
+
+          // Small delay before retry to avoid immediate re-throttling
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+          continue;
+        }
+      }
+
+      // For non-rate-limit errors, throw immediately
+      logger.error(`API call failed (attempt ${attempt}/${maxRetries}): ${error.message || error.code}`);
+
+      if (attempt >= maxRetries || !isRateLimitError) {
+        throw error;
+      }
+    }
+  }
+
+  // If we've exhausted all retries, throw the last error
+  throw new Error(
+    `Failed after ${maxRetries} attempts. Last error: ${lastError?.message || lastError?.code || 'Unknown error'}`
+  );
+}
+

@@ -29,10 +29,15 @@ import { SupabaseChatAlert } from '~/components/chat/SupabaseAlert';
 import { expoUrlAtom } from '~/lib/stores/qrCodeStore';
 import { useStore } from '@nanostores/react';
 import { StickToBottom, useStickToBottomContext } from '~/lib/hooks';
+import useViewport from '~/lib/hooks';
 import { ChatBox } from './ChatBox';
 import type { DesignScheme } from '~/types/design-scheme';
 import type { ElementInfo } from '~/components/workbench/Inspector';
 import LlmErrorAlert from './LLMApiAlert';
+import TextType from '../../../src/component/TextType';
+import BlurText from '../../../src/component/BlurText';
+import { workbenchStore } from '~/lib/stores/workbench';
+
 
 const TEXTAREA_MIN_HEIGHT = 76;
 
@@ -75,12 +80,13 @@ interface BaseChatProps {
   data?: JSONValue[] | undefined;
   chatMode?: 'discuss' | 'build';
   setChatMode?: (mode: 'discuss' | 'build') => void;
-  append?: (message: Message) => void;
+  append?: (message: Message | JSONValue) => Promise<string | null | undefined>;
+  addToolResult: (result: { messageId: string; data: unknown }) => void;
+  progressAnnotations?: ProgressAnnotation;
   designScheme?: DesignScheme;
   setDesignScheme?: (scheme: DesignScheme) => void;
   selectedElement?: ElementInfo | null;
   setSelectedElement?: (element: ElementInfo | null) => void;
-  addToolResult?: ({ toolCallId, result }: { toolCallId: string; result: any }) => void;
 }
 
 export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
@@ -133,6 +139,9 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
     },
     ref,
   ) => {
+    // Track workbench visibility for responsive chat width
+    const showWorkbench = useStore(workbenchStore.showWorkbench);
+    const isSmallViewport = useViewport(1024); // Detect screens smaller than 1024px
     const TEXTAREA_MAX_HEIGHT = chatStarted ? 400 : 200;
     const [apiKeys, setApiKeys] = useState<Record<string, string>>(getApiKeysFromCookies());
     const [modelList, setModelList] = useState<ModelInfo[]>([]);
@@ -352,16 +361,41 @@ export const BaseChat = React.forwardRef<HTMLDivElement, BaseChatProps>(
               <Workbench chatStarted={chatStarted} isStreaming={isStreaming} setSelectedElement={setSelectedElement} />
             )}
           </ClientOnly>
-          <div className={classNames(styles.Chat, 'flex flex-col flex-grow lg:min-w-[var(--chat-min-width)] h-full')}>
+          <div className={classNames(
+            styles.Chat,
+            'flex flex-col flex-grow h-full transition-all duration-300 ease-in-out',
+            {
+              // When workbench is open, chat should not exceed the remaining horizontal space
+              // workbench-width + workbench-gap takes up space, so chat should fill the rest
+              'max-w-[calc(100%-var(--workbench-width)-var(--workbench-gap))]': showWorkbench && chatStarted && !isSmallViewport,
+
+              // Full width on home screen or mobile
+              'max-w-full': !showWorkbench || !chatStarted || isSmallViewport,
+
+              // Maintain minimum width for usability
+              'lg:min-w-[var(--chat-min-width)]': !showWorkbench,
+            }
+          )}>
             {!chatStarted && (
               <div id="intro" className="mt-[16vh] max-w-5xl mx-auto text-center px-4 lg:px-0">
                 <h1 className="text-3xl lg:text-6xl font-bold text-arrow-elements-textPrimary mb-4 animate-fade-in">
-                  What do you want to build today?
+                  <BlurText
+                    text="Prompt it. Build it. Deploy it."
+                    delay={150}
+                    animateBy="words"
+                    direction="top"
+                  />
                 </h1>
-                <p className="text-md lg:text-xl mb-8 text-arrow-elements-textSecondary animate-fade-in animation-delay-200">
-                  Prompt, Create, Run and Edit
-                </p>
-
+                <h1 className='text-white text-2xl'>
+                  Build an {" "}
+                  <TextType
+                    text={["Todo application in react with Tailwind", "fitness tracking in nextjs", "landing page for an SAAS platform", "portfolio website of an UI/UX designer"]}
+                    typingSpeed={75}
+                    pauseDuration={1500}
+                    showCursor={true}
+                    cursorCharacter="|"
+                  />
+                </h1>
               </div>
             )}
             <StickToBottom

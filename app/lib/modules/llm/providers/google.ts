@@ -4,6 +4,39 @@ import type { IProviderSetting } from '~/types/model';
 import type { LanguageModelV1 } from 'ai';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 
+// Simple inline key rotator to avoid circular dependency
+class SimpleKeyRotator {
+  private keys: string[] = [];
+  private currentIndex: number = 0;
+
+  constructor(apiKeysString: string) {
+    this.keys = apiKeysString
+      .split(',')
+      .map((k) => k.trim())
+      .filter((k) => k.length > 0);
+
+    if (this.keys.length === 0) {
+      throw new Error('No API keys provided');
+    }
+
+    console.log(`[GoogleProvider] Initialized with ${this.keys.length} API key(s)`);
+  }
+
+  getNextKey(): string {
+    const key = this.keys[this.currentIndex];
+    this.currentIndex = (this.currentIndex + 1) % this.keys.length;
+    return key;
+  }
+
+  getTotalKeys(): number {
+    return this.keys.length;
+  }
+}
+
+// Global rotator instance (singleton per key configuration)
+let globalRotator: SimpleKeyRotator | null = null;
+let lastApiKeysString: string | null = null;
+
 export default class GoogleProvider extends BaseProvider {
   name = 'Google';
   getApiKeyLink = 'https://aistudio.google.com/app/apikey';
@@ -35,6 +68,18 @@ export default class GoogleProvider extends BaseProvider {
     },
   ];
 
+  /**
+   * Get or create the API key rotator instance
+   */
+  private getRotator(apiKeysString: string): SimpleKeyRotator {
+    // Create new rotator if keys changed or doesn't exist
+    if (!globalRotator || lastApiKeysString !== apiKeysString) {
+      globalRotator = new SimpleKeyRotator(apiKeysString);
+      lastApiKeysString = apiKeysString;
+    }
+    return globalRotator;
+  }
+
   async getDynamicModels(
     apiKeys?: Record<string, string>,
     settings?: IProviderSetting,
@@ -52,7 +97,11 @@ export default class GoogleProvider extends BaseProvider {
       throw `Missing Api Key configuration for ${this.name} provider`;
     }
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`, {
+    // Use rotator to get an available key
+    const rotator = this.getRotator(apiKey);
+    const currentKey = rotator.getNextKey();
+
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${currentKey}`, {
       headers: {
         ['Content-Type']: 'application/json',
       },
@@ -138,8 +187,14 @@ export default class GoogleProvider extends BaseProvider {
       throw new Error(`Missing API key for ${this.name} provider`);
     }
 
+    // Use rotator to get next available key
+    const rotator = this.getRotator(apiKey);
+    const currentKey = rotator.getNextKey();
+
+    console.log(`[GoogleProvider] Using API key for model ${model} (${rotator.getTotalKeys()} keys configured)`);
+
     const google = createGoogleGenerativeAI({
-      apiKey,
+      apiKey: currentKey,
     });
 
     return google(model);
