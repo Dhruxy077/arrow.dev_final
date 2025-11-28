@@ -7,7 +7,7 @@ import { BaseChat } from '~/components/chat/BaseChat';
 import { Chat } from '~/components/chat/Chat.client';
 import { useGit } from '~/lib/hooks/useGit';
 import { useChatHistory } from '~/lib/persistence';
-import { createCommandsMessage, detectProjectCommands, escapeBoltTags } from '~/utils/projectCommands';
+import { createCommandsMessage, detectProjectCommands, escapeArrowTags } from '~/utils/projectCommands';
 import { LoadingOverlay } from '~/components/ui/LoadingOverlay';
 import { toast } from 'react-toastify';
 
@@ -80,7 +80,7 @@ ${fileContents
                 .map(
                   (file) =>
                     `<arrowAction type="file" filePath="${file.path}">
-${escapeBoltTags(file.content)}
+${escapeArrowTags(file.content)}
 </arrowAction>`,
                 )
                 .join('\n')}

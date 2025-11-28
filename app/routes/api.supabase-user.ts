@@ -22,7 +22,7 @@ async function supabaseUserLoader({ request, context }: { request: Request; cont
     const response = await fetch('https://api.supabase.com/v1/projects', {
       headers: {
         Authorization: `Bearer ${supabaseToken}`,
-        'User-Agent': 'bolt.diy-app',
+        'User-Agent': 'arrow.dev-app',
       },
     });
 
@@ -47,10 +47,10 @@ async function supabaseUserLoader({ request, context }: { request: Request; cont
     const user =
       projects.length > 0
         ? {
-            id: projects[0].organization_id,
-            name: 'Supabase User', // Supabase doesn't provide user name in this endpoint
-            email: 'user@supabase.co', // Placeholder
-          }
+          id: projects[0].organization_id,
+          name: 'Supabase User', // Supabase doesn't provide user name in this endpoint
+          email: 'user@supabase.co', // Placeholder
+        }
         : null;
 
     return json({
@@ -105,7 +105,7 @@ async function supabaseUserAction({ request, context }: { request: Request; cont
       const response = await fetch('https://api.supabase.com/v1/projects', {
         headers: {
           Authorization: `Bearer ${supabaseToken}`,
-          'User-Agent': 'bolt.diy-app',
+          'User-Agent': 'arrow.dev-app',
         },
       });
 
@@ -126,10 +126,10 @@ async function supabaseUserAction({ request, context }: { request: Request; cont
       const user =
         projects.length > 0
           ? {
-              id: projects[0].organization_id,
-              name: 'Supabase User',
-              email: 'user@supabase.co',
-            }
+            id: projects[0].organization_id,
+            name: 'Supabase User',
+            email: 'user@supabase.co',
+          }
           : null;
 
       return json({
@@ -159,7 +159,7 @@ async function supabaseUserAction({ request, context }: { request: Request; cont
       const response = await fetch(`https://api.supabase.com/v1/projects/${projectId}/api-keys`, {
         headers: {
           Authorization: `Bearer ${supabaseToken}`,
-          'User-Agent': 'bolt.diy-app',
+          'User-Agent': 'arrow.dev-app',
         },
       });
 

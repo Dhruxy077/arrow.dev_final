@@ -65,7 +65,7 @@ function remarkThinkRawContent() {
     visit(tree, (node: any) => {
       if (node.type === 'html' && node.value && node.value.startsWith('<think>')) {
         const cleanedContent = node.value.slice(7);
-        node.value = `<div class="__boltThought__">${cleanedContent}`;
+        node.value = `<div class="__arrowThought__">${cleanedContent}`;
 
         return;
       }
@@ -86,7 +86,7 @@ const rehypeSanitizeOptions: RehypeSanitizeOptions = {
     div: [
       ...(defaultSchema.attributes?.div ?? []),
       'data*',
-      ['className', '__arrowArtifact__', '__boltThought__', '__boltQuickAction', '__boltSelectedElement__'],
+      ['className', '__arrowArtifact__', '__arrowThought__', '__arrowQuickAction', '__arrowSelectedElement__'],
 
       // ['className', '__boltThought__']
     ],
@@ -97,7 +97,7 @@ const rehypeSanitizeOptions: RehypeSanitizeOptions = {
       'disabled',
       'name',
       'value',
-      ['className', '__arrowArtifact__', '__boltThought__', '__boltQuickAction'],
+      ['className', '__arrowArtifact__', '__arrowThought__', '__arrowQuickAction'],
     ],
   },
   strip: [],

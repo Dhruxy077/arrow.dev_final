@@ -67,7 +67,7 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
   return (
     <div
       className={classNames(
-        'relative bg-arrow-elements-background-depth-2 backdrop-blur p-3 border border-arrow-elements-borderColor relative w-full max-w-chat mx-auto z-prompt',
+        'relative bg-arrow-elements-background-depth-2 backdrop-blur p-3 border border-arrow-elements-borderColor relative w-full max-w-chat mx-auto z-prompt rounded-lg',
       )}
     >
       <svg className={classNames(styles.PromptEffectContainer)}>
@@ -230,7 +230,7 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
             minHeight: props.TEXTAREA_MIN_HEIGHT,
             maxHeight: props.TEXTAREA_MAX_HEIGHT,
           }}
-          placeholder={props.chatMode === 'build' ? 'How can Bolt help you today?' : 'What would you like to discuss?'}
+          placeholder={props.chatMode === 'build' ? 'How can Arrow help you today?' : 'What would you like to discuss?'}
           translate="no"
         />
         <ClientOnly>
@@ -274,12 +274,12 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
               )}
             </IconButton>
 
-            <SpeechRecognitionButton
+            {/* <SpeechRecognitionButton
               isListening={props.isListening}
               onStart={props.startListening}
               onStop={props.stopListening}
               disabled={props.isStreaming}
-            />
+            /> */}
             {props.chatStarted && (
               <IconButton
                 title="Discuss"
@@ -318,7 +318,7 @@ export const ChatBox: React.FC<ChatBoxProps> = (props) => {
               <kbd className="kdb px-1.5 py-0.5 rounded bg-arrow-elements-background-depth-2">Return</kbd> a new line
             </div>
           ) : null}
-          <SupabaseConnection />
+          {/* <SupabaseConnection /> */}
           <ExpoQrModal open={props.qrModalOpen} onClose={() => props.setQrModalOpen(false)} />
         </div>
       </div>

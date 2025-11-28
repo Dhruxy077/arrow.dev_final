@@ -137,7 +137,7 @@ ${commandString}
   };
 }
 
-export function escapeBoltArtifactTags(input: string) {
+export function escapeArrowArtifactTags(input: string) {
   // Regular expression to match boltArtifact tags and their content
   const regex = /(<arrowArtifact[^>]*>)([\s\S]*?)(<\/boltArtifact>)/g;
 
@@ -153,7 +153,7 @@ export function escapeBoltArtifactTags(input: string) {
   });
 }
 
-export function escapeBoltAActionTags(input: string) {
+export function escapeArrowActionTags(input: string) {
   // Regular expression to match boltArtifact tags and their content
   const regex = /(<arrowAction[^>]*>)([\s\S]*?)(<\/boltAction>)/g;
 
@@ -169,8 +169,8 @@ export function escapeBoltAActionTags(input: string) {
   });
 }
 
-export function escapeBoltTags(input: string) {
-  return escapeBoltArtifactTags(escapeBoltAActionTags(input));
+export function escapeArrowTags(input: string) {
+  return escapeArrowArtifactTags(escapeArrowActionTags(input));
 }
 
 // We have this seperate function to simplify the restore snapshot process in to one single artifact.

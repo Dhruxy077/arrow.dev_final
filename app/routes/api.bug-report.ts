@@ -114,29 +114,29 @@ function formatIssueBody(data: z.infer<typeof bugReportSchema>): string {
     }
 
     if (data.environmentInfo.boltVersion) {
-      body += `- bolt.diy: ${data.environmentInfo.boltVersion}\n`;
+      body += `- arrow.dev: ${data.environmentInfo.boltVersion}\\n`;
     }
 
     if (data.environmentInfo.aiProviders) {
-      body += `- AI Providers: ${data.environmentInfo.aiProviders}\n`;
+      body += `- AI Providers: ${data.environmentInfo.aiProviders}\\n`;
     }
 
     if (data.environmentInfo.projectType) {
-      body += `- Project Type: ${data.environmentInfo.projectType}\n`;
+      body += `- Project Type: ${data.environmentInfo.projectType}\\n`;
     }
 
     if (data.environmentInfo.currentModel) {
-      body += `- Current Model: ${data.environmentInfo.currentModel}\n`;
+      body += `- Current Model: ${data.environmentInfo.currentModel}\\n`;
     }
 
-    body += '\n';
+    body += '\\n';
   }
 
   if (data.contactEmail) {
-    body += `**Contact:** ${data.contactEmail}\n\n`;
+    body += `**Contact:** ${data.contactEmail}\\n\\n`;
   }
 
-  body += '---\n*Submitted via bolt.diy bug report feature*';
+  body += '---\\n*Submitted via arrow.dev bug report feature*';
 
   return body;
 }
@@ -207,7 +207,7 @@ export async function action({ request, context }: ActionFunctionArgs) {
     // Initialize GitHub client
     const octokit = new Octokit({
       auth: githubToken,
-      userAgent: 'bolt.diy-bug-reporter',
+      userAgent: 'arrow.dev-bug-reporter',
     });
 
     // Create GitHub issue

@@ -1,6 +1,6 @@
 import type { Message } from 'ai';
 import { generateId } from './fileUtils';
-import { detectProjectCommands, createCommandsMessage, escapeBoltTags } from './projectCommands';
+import { detectProjectCommands, createCommandsMessage, escapeArrowTags } from './projectCommands';
 
 export const createChatFromFolder = async (
   files: File[],
@@ -40,12 +40,12 @@ export const createChatFromFolder = async (
 
 <arrowArtifact id="imported-files" title="Imported Files" type="bundled" >
 ${fileArtifacts
-  .map(
-    (file) => `<arrowAction type="file" filePath="${file.path}">
-${escapeBoltTags(file.content)}
+        .map(
+          (file) => `<arrowAction type="file" filePath="${file.path}">
+${escapeArrowTags(file.content)}
 </arrowAction>`,
-  )
-  .join('\n\n')}
+        )
+        .join('\n\n')}
 </arrowArtifact>`,
     id: generateId(),
     createdAt: new Date(),

@@ -1,6 +1,8 @@
 import { createTwoFilesPatch } from 'diff';
 import type { FileMap } from '~/lib/stores/files';
-import { MODIFICATIONS_TAG_NAME, WORK_DIR } from './constants';
+import { WORK_DIR } from './constants';
+
+export const MODIFICATIONS_TAG_NAME = 'arrow_file_modifications';
 
 export const modificationsRegex = new RegExp(
   `^<${MODIFICATIONS_TAG_NAME}>[\\s\\S]*?<\\/${MODIFICATIONS_TAG_NAME}>\\s+`,
@@ -90,12 +92,13 @@ export function extractRelativePath(filePath: string) {
  * Example:
  *
  * ```html
- * <bolt_file_modifications>
+ * <arrow_file_modifications>
  * <diff path="/home/project/index.js">
- * - console.log('Hello, World!');
- * + console.log('Hello, Bolt!');
+ * ```diff
+ * + console.log('Hello, Arrow!');
+ * ```
  * </diff>
- * </bolt_file_modifications>
+ * </arrow_file_modifications>
  * ```
  */
 export function fileModificationsToHTML(modifications: FileModifications) {
