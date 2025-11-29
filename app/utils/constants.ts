@@ -32,6 +32,15 @@ PROVIDER_LIST.forEach((provider) => {
 // starter Templates
 
 export const STARTER_TEMPLATES: Template[] = [
+
+  {
+    name: 'Qwik Typescript',
+    label: 'Qwik TypeScript',
+    description: 'Qwik framework starter with TypeScript for building resumable applications',
+    githubRepo: 'xKevIsDev/bolt-qwik-ts-template',
+    tags: ['qwik', 'typescript', 'performance', 'resumable'],
+    icon: 'i-arrow:qwik',
+  },
   {
     name: 'Expo App',
     label: 'Expo App',
@@ -49,30 +58,6 @@ export const STARTER_TEMPLATES: Template[] = [
     icon: 'i-arrow:astro',
   },
   {
-    name: 'NextJS Shadcn',
-    label: 'Next.js with shadcn/ui',
-    description: 'Next.js starter fullstack template integrated with shadcn/ui components and styling system',
-    githubRepo: 'xKevIsDev/bolt-nextjs-shadcn-template',
-    tags: ['nextjs', 'react', 'typescript', 'shadcn', 'tailwind'],
-    icon: 'i-arrow:nextjs',
-  },
-  {
-    name: 'Vite Shadcn',
-    label: 'Vite with shadcn/ui',
-    description: 'Vite starter fullstack template integrated with shadcn/ui components and styling system',
-    githubRepo: 'xKevIsDev/vite-shadcn',
-    tags: ['vite', 'react', 'typescript', 'shadcn', 'tailwind'],
-    icon: 'i-arrow:shadcn',
-  },
-  {
-    name: 'Qwik Typescript',
-    label: 'Qwik TypeScript',
-    description: 'Qwik framework starter with TypeScript for building resumable applications',
-    githubRepo: 'xKevIsDev/bolt-qwik-ts-template',
-    tags: ['qwik', 'typescript', 'performance', 'resumable'],
-    icon: 'i-arrow:qwik',
-  },
-  {
     name: 'Remix Typescript',
     label: 'Remix TypeScript',
     description: 'Remix framework starter with TypeScript for full-stack web applications',
@@ -87,6 +72,22 @@ export const STARTER_TEMPLATES: Template[] = [
     githubRepo: 'xKevIsDev/bolt-slidev-template',
     tags: ['slidev', 'presentation', 'markdown'],
     icon: 'i-arrow:slidev',
+  },
+  {
+    name: 'NextJS Shadcn',
+    label: 'Next.js with shadcn/ui',
+    description: 'Next.js starter fullstack template integrated with shadcn/ui components and styling system',
+    githubRepo: 'xKevIsDev/bolt-nextjs-shadcn-template',
+    tags: ['nextjs', 'react', 'typescript', 'shadcn', 'tailwind'],
+    icon: 'i-arrow:nextjs',
+  },
+  {
+    name: 'Vite Shadcn',
+    label: 'Vite with shadcn/ui',
+    description: 'Vite starter fullstack template integrated with shadcn/ui components and styling system',
+    githubRepo: 'xKevIsDev/vite-shadcn',
+    tags: ['vite', 'react', 'typescript', 'shadcn', 'tailwind'],
+    icon: 'i-arrow:shadcn',
   },
   {
     name: 'Sveltekit',
