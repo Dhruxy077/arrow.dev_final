@@ -2,7 +2,26 @@
 
 Arrow.dev is a powerful, AI-powered web-based IDE and development environment designed to streamline your coding workflow. Built with modern web technologies, it combines a robust code editor, integrated terminal, and AI-powered chat assistance into a unified interface with stunning visual effects.
 
-![Arrow.dev](https://via.placeholder.com/800x400/2d3748/ffffff?text=Arrow.dev)
+## 📸 Screenshots
+
+<div align="center">
+
+### Main Interface
+<img src="Screenshots/WhatsApp Image 2025-11-29 at 11.06.33 AM.jpeg" alt="Arrow.dev Main Interface" width="800"/>
+
+### Code Editor & Terminal
+<img src="Screenshots/WhatsApp Image 2025-11-29 at 11.08.55 AM.jpeg" alt="Code Editor and Terminal" width="800"/>
+
+### AI-Powered Chat
+<img src="Screenshots/WhatsApp Image 2025-11-29 at 11.16.10 AM.jpeg" alt="AI Chat Interface" width="800"/>
+
+### Project Overview
+<img src="Screenshots/WhatsApp Image 2025-11-29 at 11.16.33 AM.jpeg" alt="Project Overview" width="800"/>
+
+### Development Workflow
+<img src="Screenshots/WhatsApp Image 2025-11-29 at 11.17.04 AM.jpeg" alt="Development Workflow" width="800"/>
+
+</div>
 
 ## ✨ Features
 
